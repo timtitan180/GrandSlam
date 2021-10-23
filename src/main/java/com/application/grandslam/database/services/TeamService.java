@@ -23,11 +23,15 @@ public class TeamService {
         teamRepository.save(team);
     }
 
-    public Team get(long id) {
+    public Team get(Integer id) {
         return teamRepository.findById(id).get();
     }
 
-    public void delete(long id) {
+    public void delete(Integer id) {
         teamRepository.deleteById(id);
+    }
+
+    public Integer countTeamNames() {
+        return teamRepository.CountTeams();
     }
 }

@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="teams")
@@ -19,7 +20,10 @@ public class Team {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="team_id")
 	private Integer teamId;
-	
+
+	@OneToMany(mappedBy = "team")
+	private Set<Stats> stats;
+
 	@Column(name="teamName")
 	private String teamName;
 	

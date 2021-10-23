@@ -8,7 +8,6 @@ Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
         body {
             opacity: 100%;
             background-image: url("https://wallpaperaccess.com/full/100400.jpg");
-            background-repeat: no-repeat;
             background-size: 100%;
             scroll-behavior: smooth;
             font-family: sans-serif;
@@ -105,7 +104,7 @@ Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
         }
 
         table {
-            margin-top:200px;
+            margin-top:600px;
             margin-left: 330px;
             width: 40%;
         }
@@ -156,15 +155,15 @@ Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
             width: 200px;
         }
 
-        header {
+        .header {
             width:100%;
-            margin-top:100px;
+            margin-top:0px;
         }
 
     </style>
 </head>
 <body>
-<header><ul><li><a href="players/createplayer">Create Player</a></li><li><a href="teams/createteam">Create Team</a></li><li><a href="teams">View Team</a></li></ul></header>
+<header class="header"style="margin-top:0;width:100%"><ul style="position:relative;margin-top:0;"><li><a href="players/createplayer">Create Player</a></li><li><a href="teams/createteam">Create Team</a></li><li><a href="teams">View Team</a></li></ul></header>
     <table class="playerTable">
         <th>Name</th><th>AtBats</th><th>Runs</th><th>Hits</th><th>Doubles</th><th>Triples</th><th>Home Runs</th><th>RBIs</th><th>Walks</th><th>Times Struck Out</th><th>Batting Average</th><th>Innings Pitched</th><th>Home Runs Allowed</th><th>Hits Allowed</th><th>Walks Allowed</th><th>Runs Allowed</th><th>Strikeouts</th><th>ERA</th><th>Game Date</th><th>Game Location</th></tr>
         <c:forEach items="${players}" var="player">
@@ -176,15 +175,17 @@ Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
                 <td>${player.doubles}</td>
                 <td>${player.triples}</td>
                 <td>${player.homeRuns}</td>
-                <td>${player.walks}</td>
                 <td>${player.runsBattedIn}</td>
-                <td>${player.battingAverage}</td>
+                <td>${player.walks}</td>
                 <td>${player.timesStruckOut}</td>
+                <td>${player.battingAverage}</td>
                 <td>${player.inningsPitched}</td>
                 <td>${player.walksAllowed}</td>
                 <td>${player.homeRunsAllowed}</td>
-                <td>${player.hitsAllowed}</td>
+                <td>${player.walksAllowed}</td>
+                <td>${player.runsAllowed}</td>
                 <td>${player.strikeouts}</td>
+                <td><%=0.234%></td>
                 <td><a href="players/edit/${player.statsId}">Edit</a></td>
                 <td><a href="players/delete/${player.statsId}">Delete</a></td>
             </tr>

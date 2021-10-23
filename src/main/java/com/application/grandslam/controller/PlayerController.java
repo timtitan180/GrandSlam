@@ -43,10 +43,10 @@ public class PlayerController {
 		ModelAndView result = new ModelAndView("createPlayer");
 		result.addObject("form", playerForm);
 		Stats playerStats = new Stats();
-		Game gameDetails = new Game();
+//		Game gameDetails = new Game();
+		Integer numberusedForERAFormula = 9;
 		double battingAverage = (double)playerForm.getHits()/playerForm.getAtBats();
 		double formattedBattingAverage = (double) (Math.round(battingAverage*1000.0)/1000.0);
-		System.out.println(formattedBattingAverage);
 		playerStats.setPlayerId(playerForm.getPlayerId());
 		playerStats.setName(playerForm.getName());
 		playerStats.setAtBats(playerForm.getAtBats());
@@ -64,13 +64,14 @@ public class PlayerController {
 		playerStats.setInningsPitched(playerForm.getInningsPitched());
 		playerStats.setRunsAllowed(playerForm.getRunsAllowed());
 		playerStats.setStrikeouts(playerForm.getStrikeouts());
-//		double earnedRunAverage = (double) 9 * playerForm.getRunsAllowed()/playerForm.getInningsPitched();
+		double earnedRunAverage = numberusedForERAFormula * playerForm.getRunsAllowed()/playerForm.getInningsPitched();
 		playerStats.setBattingAverage(formattedBattingAverage);
+		playerStats.setEarnedRunAverage(earnedRunAverage);
 //		gameDetails.setGameDate(playerForm.getGameDate());
-		gameDetails.setGameLocation(playerForm.getGameLocation());
+//		gameDetails.setGameLocation(playerForm.getGameLocation());
 
 		statsService.save(playerStats);
-		gameService.save(gameDetails);
+//		gameService.save(gameDetails);
 		return result;
 
 	}

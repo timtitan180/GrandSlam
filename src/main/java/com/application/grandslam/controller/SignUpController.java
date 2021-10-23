@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.application.grandslam.database.entities.User;
+import com.application.grandslam.database.entities.UserRole;
 import com.application.grandslam.database.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,7 +32,7 @@ public class SignUpController {
 	 * @Autowired PasswordEncoder passwordEncoder;
 	 */
 
-	@GetMapping(value = "/signup")
+	@GetMapping(value = "signup")
 	public ModelAndView GetLoginUser() {
 		ModelAndView signupPage = new ModelAndView("signup");
 		signupPage.addObject("form", new CreateUserForm());
@@ -39,11 +40,11 @@ public class SignUpController {
 
 	}
 
-	@PostMapping(value = "/signup")
+	@PostMapping(value = "players")
 	public ModelAndView PostLoginUser(@Valid @ModelAttribute("CreateUserForm") CreateUserForm form,BindingResult bindingResult) {
-
 		ModelAndView postSignupPage = new ModelAndView("signup");
 		postSignupPage.addObject("form", form);
+
 		List<String> errors = new ArrayList<String>();
 
 		for (FieldError error : bindingResult.getFieldErrors()) {
@@ -51,13 +52,6 @@ public class SignUpController {
 			errors.add(error.getDefaultMessage());
 			System.out.println(errors);
 		}
-
-		ArrayList<Integer> errorIds = new ArrayList<Integer>();
-		errorIds.add(1);
-		errorIds.add(2);
-		errorIds.add(3);
-		errorIds.add(4);
-		errorIds.forEach( (n) -> { System.out.println("Error#:" + n); } );
 
 		postSignupPage.addObject("errors", errors);
 
@@ -67,18 +61,25 @@ public class SignUpController {
 
 		else {
 			List<User> users = new ArrayList<User>();
+			List<UserRole> userRoles = new ArrayList<UserRole>();
 			User user = new User();
+			UserRole userRole = new UserRole();
 			user.setFirstName(form.getFirstName());
 			user.setLastName(form.getLastName());
 			user.setEmail(form.getEmail());
+			userRole.setRole("COACH");
 			user.setPassword(form.getPassword());
 
 //			user.setPassword(passwordEncoder.encode(form.getPassword()));
 
 			userService.save(user);
 			System.out.println("User has been saved...");
-			users.add(user);
-			return new ModelAndView("players/createplayer");
+//			users.add(user);
+//			for(User user:users) {
+//				System.out.println(user);
+//			}
+			return new ModelAndView("showPlayers");
+			
 		}
 
 	}

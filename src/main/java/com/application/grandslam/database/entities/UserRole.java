@@ -28,8 +28,8 @@ public class UserRole implements Serializable{
 	
 	
 	@Column(name="user_role")
-	private String userRole;
-	
+	private String role;
+
 	public Integer getId() {
 		return id;
 	}
@@ -38,13 +38,12 @@ public class UserRole implements Serializable{
 		this.id = id;
 	}
 
-	public void setRole(String userRole) {
-		this.userRole = userRole;
-	}
-	
-	public String getRole() {
-		return this.userRole;
+	public String setRole(String role) {
+		return this.role = role;
 	}
 
+	public String getRole() {
+		return role;
+	}
 
 }

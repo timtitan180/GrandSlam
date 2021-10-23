@@ -98,64 +98,46 @@ div button {
 }
     </style>
   </head>
-  <body>
+  <c:>
     <header>
       <ul>
         <li>Home</li>
         <li>LogOut</li>
       </ul>
     </header>
-    <div class="create-team,">
+    <div class="create-team">
       <div>
         <img
-          id="addPlayer"
+          id="addTeam"
           src="https://png.pngtree.com/png-vector/20190307/ourlarge/pngtree-vector-add-user-icon-png-image_762930.jpg"
         />
         <p>Add Team</p>
       </div>
     </div>
+    <form action="/teams/addTeam" method="POST" style="visibility:hidden" class="form">
+      <label>Enter Team Name</label>
+      <input id="teamName" name="teamName" placeholder="Enter Team Name"/>
+      <label>Enter Number of Players</label>
+      <input id="numberofPlayers" name="numberofPlayers" placeholder="Enter Num of Players"/>
+      <input type="submit" value="Save Team"/>
+    </form>
+    <c: test="{if not empty teamName}"/>
+    <table>
+      <tr><td>Team Name</td><td>Number of Players</td></tr>
+      <tr><td>${team.teamName}</td></tr>
+      <tr><td>${team.numberofPlayers}</td></tr>
+    </table>
+    </c:>
 </body>
 <script>
-	var button = document.getElementById("button");
+	var addTeamImage = document.getElementById("addTeam");
+    var form = document.querySelector(".form");
+    addTeamImage.addEventListener("click",function(){
+        form.style.visibility = "visible";
+    });
 	var table = document.querySelector("table");
 	var teamName = document.querySelector("#teamName");
 	var numberofPlayers = document.querySelector("#numberofPlayers");
-	button
-			.addEventListener(
-					"click",
-					function(e) {
-						e.preventDefault();
-						var tr = document.createElement("tr");
-						tr.classList.add("tableRows");
-						table.appendChild(tr);
-						tr.innerHTML += `<td>${teamName.value}</td><td>${numberofPlayers.value}</td></tr>`;
-						setIdtoRows();
-					});
-
-	function setIdtoRows() {
-		var tableRows = document.querySelectorAll(".tableRows");
-		var deleteButtons = document.querySelectorAll(".delete-row");
-		for (var i = 0; i < tableRows.length; i++) {
-			deleteButtons[i].setAttribute("id", i + 1);
-		}
-	}
-
-	function createDeleteButtonforRows() {
-		var button = document.createElement("button");
-		button.setAttribute(id, i);
-	}
-
-	function deleteRow(e, id) {
-		var id = e.target.id;
-		e.parentElement.style.display = none;
-
-		//maybe put the button inside of the row so it will have the id when it is clicked
-		//get the id of the row that is selected to be deleted
-		//row.getAttribute(id);
-		//row.getElementById(id).style.display = none;
-		//
-		//remove the visibility of the row and possibly remove it from the parent node;
-	}
 </script>
 </html>
 

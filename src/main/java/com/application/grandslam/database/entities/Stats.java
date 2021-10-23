@@ -3,12 +3,7 @@ package com.application.grandslam.database.entities;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -20,6 +15,11 @@ import org.springframework.data.domain.Sort;
 @Entity
 @Table(name = "stats")
 public class Stats{
+
+	@ManyToOne
+	@JoinColumn(name = "team_id",nullable = false)
+	private Team team;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "stats_id")
@@ -224,5 +224,11 @@ public class Stats{
 		this.strikeouts = strikeouts;
 	}
 
+	public double getEarnedRunAverage() {
+		return earnedRunAverage;
+	}
 
+    public void setEarnedRunAverage(double earnedRunAverage) {
+		this.earnedRunAverage= earnedRunAverage;
+	}
 }

@@ -110,8 +110,8 @@ div button {
 }
 
 table {
-	margin-left:500px;
-	width: 40%; }
+	margin-left:300px;
+	width: 30%; }
 table {
 	border-collapse: collapse;
 	font-size: 0.9em;
@@ -164,6 +164,7 @@ button {
 <body>
 	<header>
 		<ul>
+			<li><a href="players">Players</a></li>
 			<li><a href="/games/createTeams">Teams</a></li>
 			<li><a href="/games/createGames">Games</a></li>
 			<li><a href="/admin">Admin Settings</a></li>
@@ -218,6 +219,33 @@ button {
 	<button id="button"type="submit">Add Player</button>
 		</div>
 	</form>
+	<table class="playerTable">
+		<th>Name</th><th>AtBats</th><th>Runs</th><th>Hits</th><th>Doubles</th><th>Triples</th><th>Home Runs</th><th>RBIs</th><th>Walks</th><th>Times Struck Out</th><th>Batting Average</th><th>Innings Pitched</th><th>Home Runs Allowed</th><th>Hits Allowed</th><th>Walks Allowed</th><th>Runs Allowed</th><th>Strikeouts</th><th>ERA</th><th>Game Date</th><th>Game Location</th></tr>
+		<c:forEach items="${players}" var="player">
+			<tr>
+				<td>${player.name}</td>
+				<td>${player.atBats}</td>
+				<td>${player.runs}</td>
+				<td>${player.hits}</td>
+				<td>${player.doubles}</td>
+				<td>${player.triples}</td>
+				<td>${player.homeRuns}</td>
+				<td>${player.runsBattedIn}</td>
+				<td>${player.walks}</td>
+				<td>${player.timesStruckOut}</td>
+				<td>${player.battingAverage}</td>
+				<td>${player.inningsPitched}</td>
+				<td>${player.walksAllowed}</td>
+				<td>${player.homeRunsAllowed}</td>
+				<td>${player.walksAllowed}</td>
+				<td>${player.runsAllowed}</td>
+				<td>${player.strikeouts}</td>
+				<td><%=0.234%></td>
+				<td><a href="players/edit/${player.statsId}">Edit</a></td>
+				<td><a href="players/delete/${player.statsId}">Delete</a></td>
+			</tr>
+		</c:forEach>
+	</table>
 </body>
 <script>
 	var addPlayerImage = document.querySelector("#addPlayer");
