@@ -16,7 +16,7 @@ import org.springframework.data.domain.Sort;
 @Table(name = "stats")
 public class Stats{
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "team_id",nullable = false)
 	private Team team;
 

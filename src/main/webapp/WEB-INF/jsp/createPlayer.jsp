@@ -208,6 +208,7 @@ button {
 				id="walksAllowed" placeholder="Walks Allowed" name="walksAllowed" />
 				</input id="strikeouts" placeholder="Strikeouts" name="strikeouts"/>
 		</div>
+        <div><input placholder="Enter Teams Name" name="teamName" id="teamName"/></div>
 		<h5>Game Details</h5>
 		<div>
 			<input id="gameLocation" name="gameLocation" placeholder="Enter Game Location"/>
