@@ -11,4 +11,14 @@ import java.util.List;
 public interface TeamsRepo extends CrudRepository<Team,Integer> {
     @Query(value="SELECT COUNT(t) FROM Team t")
     Integer CountTeams();
+
+     Team getTeamByTeamName(String teamName);
+
+     Integer getTeamIdByTeamName(String teamName);
+
+    //input Team
+    //getTeamNameById()
+    //Warriors-> 2;
+    //stats.getTeamId(2);
+    //getplayersteam by id -> 2 -> Warriors -> get count of team_id -> 2
 }

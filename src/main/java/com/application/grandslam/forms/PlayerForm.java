@@ -1,8 +1,9 @@
 package com.application.grandslam.forms;
 
-import java.util.Date;
+import com.application.grandslam.database.entities.Team;
 
 public class PlayerForm {
+
     private Integer playerId;
     private String name;
     private Integer games;
@@ -24,14 +25,15 @@ public class PlayerForm {
     private Integer walksAllowed;
     private Integer runsAllowed;
     private Integer strikeouts;
+    private double earnedRunAverage;
 
     /*Game form*/
     private Integer gameId;
 //    private Date gameDate;
     private String gameLocation;
+    private String teamName;
 
-    private double earnedRunAverage;
-
+//    Team infow
 
     public void setName(String name) {
         this.name = name;
@@ -213,6 +215,14 @@ public class PlayerForm {
 
     public String getGameLocation() {
         return this.gameLocation;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public String getTeamName() {
+        return teamName;
     }
 
 //	@Override

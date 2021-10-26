@@ -16,7 +16,7 @@ import org.springframework.data.domain.Sort;
 @Table(name = "stats")
 public class Stats{
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "team_id",nullable = false)
 	private Team team;
 
@@ -231,4 +231,13 @@ public class Stats{
     public void setEarnedRunAverage(double earnedRunAverage) {
 		this.earnedRunAverage= earnedRunAverage;
 	}
+
+	public void setTeam(Team team) {
+		this.team = team;
+	}
+
+	public Team getTeam() {
+		return team;
+	}
 }
+

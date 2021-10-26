@@ -34,4 +34,12 @@ public class TeamService {
     public Integer countTeamNames() {
         return teamRepository.CountTeams();
     }
+
+    public Team getTeam(String teamName) {
+        return teamRepository.getTeamByTeamName(teamName);
+    }
+
+    public Integer getNumberofPlayers(String teamName) {
+        return teamRepository.getTeamIdByTeamName(teamName);
+    }
 }
