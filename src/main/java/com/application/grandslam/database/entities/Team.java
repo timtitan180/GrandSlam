@@ -15,48 +15,56 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="teams")
+@Table(name = "teams")
 public class Team {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="team_id")
-	private Integer teamId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "team_id")
+    private Integer teamId;
 
-	@OneToMany(mappedBy = "team")
-	private Set<Stats> stats;
+    @OneToMany(mappedBy = "team")
+    private Set<Stats> stats;
 
-	@Column(name="teamName")
-	private String teamName;
-	
-	@Column(name="numberofPlayers")
-	private Integer numberofPlayers;
-	
-	public Integer getTeamId() {
-		return teamId;
-	}
+    @Column(name = "teamName")
+    private String teamName;
 
-	public void setTeamId(Integer teamId) {
-		this.teamId = teamId;
-	}
+    @Column(name = "numberofPlayers")
+    private Integer numberofPlayers;
 
-	public String getTeamName() {
-		return teamName;
-	}
+    public Integer getTeamId() {
+        return teamId;
+    }
 
-	public void setTeamName(String teamName) {
-		this.teamName = teamName;
-	}
+    public void setTeamId(Integer teamId) {
+        this.teamId = teamId;
+    }
 
-	public Integer getNumberofPlayers() {
-		return numberofPlayers;
-	}
+    public String getTeamName() {
+        return teamName;
+    }
 
-	public void setNumberofPlayers(Integer numberofPlayers) {
-		this.numberofPlayers = numberofPlayers;
-	}
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
 
-	public Integer getId() {
-		return this.teamId;
-	}
+    public Integer getNumberofPlayers() {
+        return numberofPlayers;
+    }
+
+    public void setNumberofPlayers(Integer numberofPlayers) {
+        this.numberofPlayers = numberofPlayers;
+    }
+
+    public Integer getId() {
+        return this.teamId;
+    }
+
+    @Override
+    public String toString() {
+        return "Team:[" + teamId + "" + teamName + "" + numberofPlayers + "" + "]";
+    }
+
+
 }
+
 

@@ -96,14 +96,17 @@ public class PlayerController {
 
         playerStats.setBattingAverage(formattedBattingAverage);
 
-//        playerStats.setEarnedRunAverage(earnedRunAverage);
-
         team.setTeamName(playerForm.getTeamName());
-        //
+        team.setTeamId(2);
         team.setNumberofPlayers(1);
-        if(!team.getIdByTeamName() == null) {
-            team.setNumberofPlayers() += 1;
-        }
+        playerStats.setTeam(team);
+        System.out.println(team.toString());
+        //
+//        if(teamService.getNumberofPlayers(team.getTeamName()) > 0) {
+//            System.out.println("Team exists");
+//            team.setNumberofPlayers(team.getNumberofPlayers() + 1);
+//        }
+
         //STATS
         //stats_id atbats hits runs team_id
         //2         12     19   13      1
