@@ -2,6 +2,7 @@ package com.application.grandslam.database.entities;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -16,9 +17,15 @@ import org.springframework.data.domain.Sort;
 @Table(name = "stats")
 public class Stats{
 
-	@ManyToOne
-	@JoinColumn(name = "team_id",nullable = false)
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "team_id",referencedColumnName = "team_id")
 	private Team team;
+
+	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+	@JoinTable(
+			name
+	="game_stats")
+	private Set<Game> game;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -239,5 +246,14 @@ public class Stats{
 	public Team getTeam() {
 		return team;
 	}
+
+	public void setGames(List<Game> game) {
+		this.game = game;
+	}
+
+	public List<Game> getGame() {
+		return game;
+	}
 }
+
 

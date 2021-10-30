@@ -28,6 +28,11 @@ public class TeamController
 
         return model;
     }
+//    @PostMapping()
+
+    //@PutMapping()
+
+    //@DeleteMapping()
 
     @RequestMapping(value = "/team",method=RequestMethod.POST)
     public ModelAndView saveTeam(@ModelAttribute("team") Team team)

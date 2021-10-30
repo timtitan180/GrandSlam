@@ -35,11 +35,15 @@ public class TeamService {
         return teamRepository.CountTeams();
     }
 
-    public Team getTeam(String teamName) {
-        return teamRepository.getTeamByTeamName(teamName);
+    public Team existingTeam(String teamName) {
+            return teamRepository.getTeamByTeamName(teamName);
     }
 
-    public Integer getNumberofPlayers(String teamName) {
-        return teamRepository.getTeamIdByTeamName(teamName);
-    }
+//    public Team getTeam(String teamName) {
+//        return teamRepository.getTeamByTeamName(teamName);
+//    }
+
+//    public Integer getNumberofPlayers(String teamName) {
+//        return teamRepository.getTeamIdByTeamName(teamName);
+//    }
 }

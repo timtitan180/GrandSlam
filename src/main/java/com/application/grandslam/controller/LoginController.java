@@ -45,7 +45,6 @@ public class LoginController {
 
     @GetMapping(value = "/login")
     public ModelAndView getLoginPage() {
-        LOG.info("User is signed in!");
         ModelAndView
                 view = new ModelAndView("login");
         return view;

@@ -3,6 +3,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name="games")
 public class Game {
@@ -11,6 +14,10 @@ public class Game {
 	@Id
 	@Column(name="game_id")
 	private Integer gameId;
+
+	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+	@JoinTable(name="game_stats")
+	Set<Stats> stats;
 
 //	@Column(name="game_date",nullable = true)
 //	@DateTimeFormat(pattern="YYYY-MM-DD")
@@ -34,8 +41,17 @@ public class Game {
 	public String getGameLocation() {
 		return gameLocation;
 	}
+
 	public void setGameLocation(String gameLocation) {
 		this.gameLocation = gameLocation;
+	}
+
+	public void setStats(Set<Stats> stats) {
+		this.stats = stats;
+	}
+
+	public Set<Stats> getStats() {
+		return stats;
 	}
 
 }
