@@ -5,6 +5,7 @@ import java.lang.annotation.Native;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Optional;
 
 
 import com.application.grandslam.database.entities.User;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 //        org.springframework.data.domain.Example;
 //import
 //        org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -53,11 +55,17 @@ public class LoginController {
     @PostMapping(value = "/login/logginguser")
     public ModelAndView checkLoginPage(@ModelAttribute("LoginForm") LoginForm form, @RequestParam("email") String email, String errors, HttpServletResponse response) throws IOException {
         ModelAndView view = new ModelAndView("login");
-        User userByEmail = (User) userDetailsService.loadUserByUsername(email);
-        if (userByEmail == null) {
-            view.addObject(errors, "User could not be found in the system");
-            response.sendRedirect("/login");
-        }
+        //use optional to check if the information entered for the user is present in the database
+        Optional<UserDetails> currentUser = Optional.ofNullable(userDetailsService.loadUserByUsername(email));
+        if(!(currentUser.isPresent())) {
+        view.addObject(errors, "User could not be found in the system");
+        response.sendRedirect("/login");
+    }
+//        User userByEmail = (User) userDetailsService.loadUserByUsername(email);
+//        if (userByEmail == null) {
+//            view.addObject(errors, "User could not be found in the system");
+//            response.sendRedirect("/login");
+//        }
         view = new ModelAndView("admin");
         return view;
     }

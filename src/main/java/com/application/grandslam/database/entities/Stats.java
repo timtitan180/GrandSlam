@@ -21,11 +21,8 @@ public class Stats{
 	@JoinColumn(name = "team_id",referencedColumnName = "team_id")
 	private Team team;
 
-	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
-	@JoinTable(
-			name
-	="game_stats")
-	private Set<Game> game;
+//	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//	private Game game;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -247,13 +244,6 @@ public class Stats{
 		return team;
 	}
 
-	public void setGames(List<Game> game) {
-		this.game = game;
-	}
-
-	public List<Game> getGame() {
-		return game;
-	}
 }
 
 

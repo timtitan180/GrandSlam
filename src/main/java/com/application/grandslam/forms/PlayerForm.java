@@ -2,6 +2,8 @@ package com.application.grandslam.forms;
 
 import com.application.grandslam.database.entities.Team;
 
+import java.util.Date;
+
 public class PlayerForm {
 
     private Integer playerId;
@@ -29,7 +31,7 @@ public class PlayerForm {
 
     /*Game form*/
     private Integer gameId;
-//    private Date gameDate;
+    private Date gameDate;
     private String gameLocation;
     private String teamName;
 
@@ -223,6 +225,10 @@ public class PlayerForm {
 
     public String getTeamName() {
         return teamName;
+    }
+
+    public Date getGameDate() {
+            return gameDate;
     }
 
 //	@Override

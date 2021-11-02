@@ -193,7 +193,7 @@ td {
 	<div class="register-header">
 		<h3>REGISTER</h3>
 	</div>
-	<form action="players/createplayer" method="POST">
+	<form action="signup" method="POST">
 		<input class="inputs" id="fname" autcomplete="off" autofill="off" name="firstName" placeholder="Enter First Name"></input> <input
 			class="inputs" autcomplete="off" autofill="off" id="lname"
 			placeholder="Enter Last Name" name="lastName"></input> <input

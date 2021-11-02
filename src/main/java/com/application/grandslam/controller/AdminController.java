@@ -2,15 +2,12 @@ package com.application.grandslam.controller;
 
 import com.application.grandslam.database.entities.User;
 import com.application.grandslam.database.services.UserService;
-import com.application.grandslam.forms.CreateUserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller

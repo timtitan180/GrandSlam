@@ -2,7 +2,7 @@ package com.application.grandslam.forms;
 
 import javax.validation.constraints.*;
 
-public class CreateUserForm {
+public class SignUpForm {
 	@NotNull(message = "Please enter your first name")
 	@Size(min=1,max=45,message="First Name must be between 1 and 45 characters long")
 	private String firstName;

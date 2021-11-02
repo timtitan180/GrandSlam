@@ -10,20 +10,21 @@ import com.application.grandslam.database.entities.UserRole;
 import com.application.grandslam.database.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import com.application.grandslam.forms.CreateUserForm;
+import com.application.grandslam.forms.SignUpForm;
 
 
 
 @Controller
 public class SignUpController {
 
-//	@Autowired
-//	PasswordEncoder passwordEncoder;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	@Autowired
 	UserService userService;
@@ -35,13 +36,13 @@ public class SignUpController {
 	@GetMapping(value = "signup")
 	public ModelAndView GetLoginUser() {
 		ModelAndView signupPage = new ModelAndView("signup");
-		signupPage.addObject("form", new CreateUserForm());
+		signupPage.addObject("form", new SignUpForm());
 		return signupPage;
 
 	}
 
-	@PostMapping(value = "players")
-	public ModelAndView PostLoginUser(@Valid @ModelAttribute("CreateUserForm") CreateUserForm form,BindingResult bindingResult) {
+	@PostMapping(value = "signup")
+	public ModelAndView PostLoginUser(@Valid @ModelAttribute("SignUpForm") SignUpForm form, BindingResult bindingResult) {
 		ModelAndView postSignupPage = new ModelAndView("signup");
 		postSignupPage.addObject("form", form);
 
@@ -67,10 +68,8 @@ public class SignUpController {
 			user.setFirstName(form.getFirstName());
 			user.setLastName(form.getLastName());
 			user.setEmail(form.getEmail());
-			userRole.setRole("COACH");
-			user.setPassword(form.getPassword());
-
-//			user.setPassword(passwordEncoder.encode(form.getPassword()));
+			userRole.setRole("USER");
+			user.setPassword(passwordEncoder.encode(form.getPassword()));
 
 			userService.save(user);
 			System.out.println("User has been saved...");

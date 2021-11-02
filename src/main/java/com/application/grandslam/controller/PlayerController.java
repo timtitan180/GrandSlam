@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class PlayerController {
@@ -55,7 +54,7 @@ public class PlayerController {
         result.addObject("form", playerForm);
         Stats playerStats = new Stats();
         Team team = new Team();
-//		Game gameDetails = new Game();
+		Game gameDetails = new Game();
         Integer numberusedForERAFormula = 9;
 
         double battingAverage = (double) playerForm.getHits() / playerForm.getAtBats();
@@ -101,22 +100,13 @@ public class PlayerController {
 
         playerStats.setBattingAverage(formattedBattingAverage);
 
-//        if(teamService.existingTeam(playerForm.getTeamName())!= null) {
-//            System.out.println(playerForm.getTeamName());
-//            //set the existingTeam object's id to the existing idea in the team record
-//            //how can I achieve this? Get the id of the record by the inputted Name
-//            //Integer id = findIdByTeamName(playerForm.getTeamName())
-//
-////            teamRepository.save(existingTeam);
-////            System.out.println(existingTeam.getNumberofPlayers());
-//            System.out.println("Team already exists in the database!");
-////            teamRepository.getTeamByNumberofPlayers(numberOfPlayers);
-//        }
         Team addedTeam = teamRepository.findTeamByTeamName(playerForm.getTeamName());
         if(addedTeam != null) {
             addedTeam.setNumberofPlayers(addedTeam.getNumberofPlayers() + 1);
             playerStats.setTeam(addedTeam);
             statsService.save(playerStats);
+            gameDetails.setGameLocation(playerForm.getGameLocation());
+            gameService.save(gameDetails);
         }
 
         Team newTeam = new Team();
@@ -125,16 +115,9 @@ public class PlayerController {
         playerStats.setTeam(newTeam);
         statsService.save(playerStats);
         teamService.save(newTeam);
-
-        //I want to be able to know how many players are in a team to see if i can render a leaderboard for players in the same team
-        //In order to achieve this I need to:
-        //Save the players along with the team they belong to:
-        //1.I need to save stats entity and team entity and then succesfully join the tables to show the team_id of that stats record
-        //2. I need to be able to increment the column of numberofPlayers from the teams table whenever a created player enters a team name already in the database
-        //3.Show the stats of every player from the team
-        //Create a query in the team repository that joins team and stats
-        //1. fix the entities to be able to write a custom query that joins the team entity with the stats entity on the team_id key
-        //2.
+        gameDetails.setGameLocation(playerForm.getGameLocation());
+        gameDetails.setGameDate(playerForm.getGameDate());
+        gameService.save(gameDetails);
 
 
 //        if(teamService.getNumberofPlayers(team.getTeamName()) > 0) {
@@ -142,22 +125,6 @@ public class PlayerController {
 //            team.setNumberofPlayers(team.getNumberofPlayers() + 1);
 //        }
 
-        //STATS
-        //stats_id atbats hits runs team_id
-        //2         12     19   13      1
-
-        //TEAMS
-        //team_id team_name team_location number_of_players
-        //1       Warriors  Chicago         0
-        //
-
-        //stats stats.getAtBats() -> 12 stats.getHits() -> 19 stats.getRuns()
-        //stats.getRuns()-> 13 -> stats.getTeam() -> team.getId() -> 1 team.getName() -> Warriors team.getNumberofPlayers() -> 0 + 1 = 1
-
-
-//		playerStats.teamId(team.getId());
-//		gameDetails.setGameDate(playerForm.getGameDate());
-//		gameDetails.setGameLocation(playerForm.getGameLocation());
 
         statsService.save(playerStats);
 //		gameService.save(gameDetails);
@@ -177,7 +144,7 @@ public class PlayerController {
 
     @GetMapping("players/delete/{id}")
     public ModelAndView deletePlayer(@PathVariable(name = "id") Integer id) {
-        ModelAndView page = new ModelAndView("createPlayer");
+        ModelAndView page = new ModelAndView("showPlayers");
         statsService.delete(id);
         System.out.println("User has been deleted");
         page.addObject("statsId", id);
