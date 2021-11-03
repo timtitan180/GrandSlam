@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import com.application.grandslam.security.UserDetailsImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -27,6 +28,7 @@ SecurityConfig extends WebSecurityConfigurerAdapter {
 //@Autowired AuthenticationSuccessHandlerImpl successHandler;
 //
 // @Autowired AuthenticationFailureHandlerImpl failureHandler;
+
 
 
     @Autowired

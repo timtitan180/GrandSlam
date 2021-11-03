@@ -1,3 +1,4 @@
+<%@taglib uri = "http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
@@ -67,7 +68,8 @@ button {
 </head>
 <body>
 <h2>LOGIN</h2>
-<form action="login/logginguser" method="POST">
+<form action="login/user" method="POST">
+	<p style="color:red">${error}</p>
 	<div class="mb-3">
 		<label for="exampleInputEmail1" class="form-label">Email Address</label>
 		<input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">

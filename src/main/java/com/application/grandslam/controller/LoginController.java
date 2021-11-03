@@ -11,7 +11,6 @@ import java.util.Optional;
 import com.application.grandslam.database.entities.User;
 import com.application.grandslam.database.repositories.UserRepository;
 import com.application.grandslam.database.services.UserService;
-import com.application.grandslam.security.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +31,9 @@ import com.application.grandslam.forms.LoginForm;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import static java.util.Optional.ofNullable;
 
 
 //@PreAuthorize("hasAuthority('USER')")
@@ -39,34 +41,36 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginController {
     static Logger LOG = LoggerFactory.getLogger(LoginController.class);
 
-    @Autowired
-    UserDetailsServiceImpl userDetailsService;
+//    @Autowired
+//    UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     UserRepository userRepository;
 
     @GetMapping(value = "/login")
     public ModelAndView getLoginPage() {
-        ModelAndView
-                view = new ModelAndView("login");
+        ModelAndView view = new ModelAndView("login");
         return view;
     }
 
-    @PostMapping(value = "/login/logginguser")
-    public ModelAndView checkLoginPage(@ModelAttribute("LoginForm") LoginForm form, @RequestParam("email") String email, String errors, HttpServletResponse response) throws IOException {
+    @PostMapping(value = "/login/user")
+    public ModelAndView checkLoginPage(@ModelAttribute("LoginForm") LoginForm form, @RequestParam("email") String email, String error, HttpServletResponse response, HttpSession session) throws IOException {
         ModelAndView view = new ModelAndView("login");
-        //use optional to check if the information entered for the user is present in the database
-        Optional<UserDetails> currentUser = Optional.ofNullable(userDetailsService.loadUserByUsername(email));
-        if(!(currentUser.isPresent())) {
-        view.addObject(errors, "User could not be found in the system");
-        response.sendRedirect("/login");
+        Optional<User> currentUser = ofNullable(userRepository.findByEmail(email));
+        System.out.println(currentUser);
+        if(currentUser.isEmpty()) {
+            view.addObject(error, "User could not be found in the system");
+            response.sendRedirect("/login");
     }
-//        User userByEmail = (User) userDetailsService.loadUserByUsername(email);
-//        if (userByEmail == null) {
-//            view.addObject(errors, "User could not be found in the system");
-//            response.sendRedirect("/login");
-//        }
-        view = new ModelAndView("admin");
+        else {
+            if(currentUser.isPresent()) {
+                session.setAttribute("loggedInUser", currentUser.get());
+                LOG.info("Users logged In!");
+                LOG.info((String) session.getAttribute("loggedInUser"));
+                view = new ModelAndView("home");
+            }
+
+        }
         return view;
     }
 

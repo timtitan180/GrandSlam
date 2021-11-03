@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class UserDetailsImpl implements UserDetails {
-    public final Logger LOG = (Logger) LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+    public final Logger LOG = (Logger) LoggerFactory.getLogger(UserDetailsImpl.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -31,15 +31,12 @@ public class UserDetailsImpl implements UserDetails {
 
         User user = userRepository.findByEmail(email);
 
-        if (user == null) {
-            throw new UsernameNotFoundException("Email '" + email + "' not found in database");
-        }
 
 
         List<UserRole> userRoles = userRepository.getUserRoles(user.getId());
         // check the account status
         boolean accountIsEnabled = true;
-        //accountIsEnabled = user.isActive();
+//        accountIsEnabled = user.isActive();
 
         // spring security configs
         boolean accountNonExpired = true;
@@ -71,7 +68,7 @@ public class UserDetailsImpl implements UserDetails {
         }
 
         // always add the user role
-        authorities.add(new SimpleGrantedAuthority("PLAYER"));
+        authorities.add(new SimpleGrantedAuthority("USER"));
 
         return authorities;
     }

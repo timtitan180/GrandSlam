@@ -3,6 +3,7 @@ package com.application.grandslam.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import com.application.grandslam.database.entities.User;
@@ -20,7 +21,7 @@ import com.application.grandslam.forms.SignUpForm;
 
 
 
-@Controller
+@RestController
 public class SignUpController {
 
 	@Autowired
@@ -42,7 +43,7 @@ public class SignUpController {
 	}
 
 	@PostMapping(value = "signup")
-	public ModelAndView PostLoginUser(@Valid @ModelAttribute("SignUpForm") SignUpForm form, BindingResult bindingResult) {
+	public ModelAndView PostLoginUser(HttpServletResponse response, @Valid @ModelAttribute("SignUpForm") SignUpForm form, BindingResult bindingResult) {
 		ModelAndView postSignupPage = new ModelAndView("signup");
 		postSignupPage.addObject("form", form);
 
@@ -73,15 +74,12 @@ public class SignUpController {
 
 			userService.save(user);
 			System.out.println("User has been saved...");
-//			users.add(user);
-//			for(User user:users) {
-//				System.out.println(user);
-//			}
 			return new ModelAndView("showPlayers");
 			
 		}
 
 	}
+
 
 }
 

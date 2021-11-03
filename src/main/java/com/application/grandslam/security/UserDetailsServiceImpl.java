@@ -1,4 +1,4 @@
-package com.application.grandslam.security;
+package com.application.grandslam.security;//package com.application.grandslam.security;
 //
 //import com.application.grandslam.database.entities.User;
 //import com.application.grandslam.database.entities.UserRole;
@@ -26,7 +26,10 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
+
+import static java.util.Optional.ofNullable;
 
 
 @Component
@@ -37,25 +40,38 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UserRepository userRepository;
 
 
+        boolean accountIsEnabled = true; // accountIsEnabled = user.isActive(); //
+        boolean accountNonExpired = true;
+        boolean credentialsNonExpired = true;
+         boolean accountNonLocked = true;
 
-    boolean accountIsEnabled = true; // accountIsEnabled = user.isActive(); //
-    boolean accountNonExpired = true;
-    boolean credentialsNonExpired = true;
-     boolean accountNonLocked = true;
-
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
+    public UserDetails loadUserByUsername(String email) {
         User user = userRepository.findByEmail(email);
+        Optional<User> Authenticateduser = ofNullable(user);
+        if(Authenticateduser.isEmpty()) {
+            LOG.error("User could not be found");
 
-        if (user == null) {
-            LOG.info("User could not be found");
-            throw new
-                    UsernameNotFoundException("Username" + email + "" + "could not be found");
         }
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),accountIsEnabled,accountNonExpired
         ,credentialsNonExpired,accountNonLocked,null);
     }
 }
+//
+
+//
+////    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+////
+//////        User user = userRepository.findByEmail(email);
+//////
+//////        if (user == null) {
+//////            LOG.info("User could not be found");
+//////            throw new
+//////                    UsernameNotFoundException("Username" + email + "" + "could not be found");
+//////        }
+////        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),accountIsEnabled,accountNonExpired
+////        ,credentialsNonExpired,accountNonLocked,null);
+////    }
+//}
 
     /*For Authorities and Authorization*/
 ////        List<UserRole> userRoles = userRepository.getRoles();
