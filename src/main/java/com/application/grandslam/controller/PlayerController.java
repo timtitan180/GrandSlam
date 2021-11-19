@@ -7,6 +7,7 @@ import com.application.grandslam.database.repositories.TeamsRepo;
 import com.application.grandslam.database.services.StatService;
 import com.application.grandslam.database.services.GameService;
 import com.application.grandslam.database.services.TeamService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,7 +16,13 @@ import com.application.grandslam.forms.PlayerForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
+
+//
+//@PreAuthorize('isAuthenticated("COACH")')
 
 @Controller
 public class PlayerController {
@@ -32,25 +39,32 @@ public class PlayerController {
     @Autowired
     private GameService gameService;
 
-    @GetMapping("/players")
-    public ModelAndView getPlayerTable() {
-
+    @GetMapping("players")
+    public ModelAndView getPlayerTable(HttpServletRequest request) {
+        System.out.println(request.getSession().getAttribute("userRole"));
         List<Stats> playerStatsList = statsService.listAll();
+        System.out.println(playerStatsList.toString());
         ModelAndView result = new ModelAndView("showPlayers");
         result.addObject("players", playerStatsList);
         return result;
     }
 
     @GetMapping("players/createplayer")
-    public ModelAndView getPlayerTable(@ModelAttribute("PlayerForm") PlayerForm playerForm) {
-        ModelAndView result = new ModelAndView("createPlayer");
+    public String getPlayerTable(HttpServletRequest request,@ModelAttribute("PlayerForm") PlayerForm playerForm) {
+        System.out.println(request.getSession().getAttribute("userRole"));
+        List<Stats> playerStatsList = statsService.listAll();
+        ModelAndView result = new ModelAndView("showPlayers");
+        result.addObject("players", playerStatsList);
         result.addObject("form", playerForm);
-        return result;
+        return "redirect:/players";
     }
 
-    @PostMapping("players/createplayer/addedPlayer")
-    public ModelAndView postPlayerTable(@ModelAttribute("PlayerForm") PlayerForm playerForm) {
-        ModelAndView result = new ModelAndView("createPlayer");
+
+    @PostMapping("players/createplayer")
+    public ModelAndView postPlayerTable(HttpServletRequest request,@ModelAttribute("PlayerForm") PlayerForm playerForm) {
+        System.out.println(request.getSession().getAttribute("userRole"));
+        List<Stats> playerStatsList = statsService.listAll();
+        ModelAndView result = new ModelAndView("showPlayers");
         result.addObject("form", playerForm);
         Stats playerStats = new Stats();
         Team team = new Team();
@@ -109,15 +123,17 @@ public class PlayerController {
             gameService.save(gameDetails);
         }
 
-        Team newTeam = new Team();
-        newTeam.setTeamName(playerForm.getTeamName());
-        newTeam.setNumberofPlayers(1);
-        playerStats.setTeam(newTeam);
-        statsService.save(playerStats);
-        teamService.save(newTeam);
-        gameDetails.setGameLocation(playerForm.getGameLocation());
-        gameDetails.setGameDate(playerForm.getGameDate());
-        gameService.save(gameDetails);
+            Team newTeam = new Team();
+            newTeam.setTeamName(playerForm.getTeamName());
+            newTeam.setNumberofPlayers(1);
+            playerStats.setTeam(newTeam);
+            statsService.save(playerStats);
+            teamService.save(newTeam);
+            gameDetails.setGameLocation(playerForm.getGameLocation());
+            gameDetails.setGameDate(playerForm.getGameDate());
+            gameService.save(gameDetails);
+
+             result.addObject("players",playerStatsList);
 
 
 //        if(teamService.getNumberofPlayers(team.getTeamName()) > 0) {
@@ -125,8 +141,6 @@ public class PlayerController {
 //            team.setNumberofPlayers(team.getNumberofPlayers() + 1);
 //        }
 
-
-        statsService.save(playerStats);
 //		gameService.save(gameDetails);
         return result;
 
@@ -142,14 +156,20 @@ public class PlayerController {
         return editPlayerPage;
     }
 
+//    @GetMapping("players/delete/{id}")
+//    public ModelAndView getDeletePlayer (@PathVariable(name="id") Integer id) {
+//        ModelAndView page = new ModelAndView("showPlayers");
+//        page.addObject("statsId", id);
+//        return page;
+//    }
     @GetMapping("players/delete/{id}")
-    public ModelAndView deletePlayer(@PathVariable(name = "id") Integer id) {
+    public String deletePlayer (@PathVariable(name = "id") Integer statsId) {
         ModelAndView page = new ModelAndView("showPlayers");
-        statsService.delete(id);
+        statsService.delete(statsId);
         System.out.println("User has been deleted");
-        page.addObject("statsId", id);
-        return page;
-    }
+        page.addObject("statsId", statsId);
+        return "redirect:/players";
+}
 
 //	@RequestMapping("/search")
 //	public ModelAndView search(@RequestParam String keyword) {

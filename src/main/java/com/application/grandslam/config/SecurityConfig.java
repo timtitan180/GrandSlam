@@ -32,11 +32,12 @@ SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
     UserRepository userRepository;
 
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsServiceImpl();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -46,7 +47,7 @@ SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().antMatchers("/home","/","/signup/**","/login","/login/logginguser","/login/logout","/players","/teams").permitAll().antMatchers("/players/**","teams/**").hasRole("COACH").antMatchers("/admin**").hasRole("ADMIN").anyRequest().authenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/admin").permitAll().and().logout().permitAll().invalidateHttpSession(true).
+        http.csrf().disable().authorizeRequests().antMatchers("/admin", "/home","/","/signup/**","/login","/login/logginguser","/login/logout","/players/**","/teams").permitAll().antMatchers("teams/**").hasRole("COACH").antMatchers("/thisroute").hasRole("ADMIN").anyRequest().authenticated().and().logout().permitAll().invalidateHttpSession(true).
                 clearAuthentication(false)
                 .permitAll().and().rememberMe().key("SR_KEY").tokenValiditySeconds(60 * 60 *
                         24).rememberMeParameter("remember-me").and().exceptionHandling().
@@ -57,7 +58,7 @@ SecurityConfig extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider getAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new
                 DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService);
+        authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return
                 authenticationProvider;
@@ -67,7 +68,7 @@ SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws
             Exception {
-        auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(userDetailsService());
         auth.authenticationProvider(getAuthenticationProvider());
     }
 

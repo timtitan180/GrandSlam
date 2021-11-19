@@ -1,7 +1,9 @@
 package com.application.grandslam.database.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+
 import javax.persistence.*;
 @Entity
 @Table(name = "users")
@@ -23,8 +25,9 @@ public class User {
 	@Column(name = "password", nullable = false)
 	private String password;
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-	private List<UserRole> userRoles = new ArrayList<UserRole>();
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="role_id")
+	private Role role;
 
 	public Integer getId() {
 		return userId;
@@ -66,9 +69,18 @@ public class User {
 		this.password = password;
 	}
 
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
 	@Override
 	public String toString() {
-		return "User: [" + firstName + "" + lastName + "" + email + "" + password + "]";
+		return "User: [" + firstName + "" + lastName + "" + email + "" + password + "" + role + "" + "]";
 	}
 
 }

@@ -27,8 +27,8 @@ public class StatService {
         return statRepository.findById(id).get();
     }
 
-    public void delete(Integer statsId) {
-        statRepository.deleteById(statsId);
+    public void delete(Integer id) {
+        statRepository.deleteById(id);
     }
 
 //    public List<Stats> search(String keyword) {

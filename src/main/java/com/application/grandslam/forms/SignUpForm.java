@@ -1,5 +1,7 @@
 package com.application.grandslam.forms;
 
+import com.application.grandslam.database.entities.Role;
+
 import javax.validation.constraints.*;
 
 public class SignUpForm {
@@ -21,7 +23,7 @@ public class SignUpForm {
 	@NotNull(message = "Please enter your password again")
 	private String confirmPassword;
 
-
+	private String role;
 
 
 	public String getFirstName() {
@@ -81,11 +83,20 @@ public class SignUpForm {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
 	
 	@Override
 	public String toString() {
-		return "CreateUserForm: [" + firstName + "" + lastName + "" + email + "" +password + "" + confirmPassword
-				+ "]";
+		return "CreateUserForm: [" + firstName + "" + lastName + "" + email + "" + password + "" + confirmPassword
+				+ role + "]";
 	}
 
 

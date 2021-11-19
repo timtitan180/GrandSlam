@@ -1,7 +1,7 @@
 package com.application.grandslam.database.repositories;
 
+import com.application.grandslam.database.entities.Role;
 import com.application.grandslam.database.entities.User;
-import com.application.grandslam.database.entities.UserRole;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +15,11 @@ import org.springframework.data.repository.query.Param;
 
 
 public interface UserRepository extends CrudRepository<User,Integer> {
+        @Query("select u from User u where u.email = :email")
         User findByEmail(String email);
 
-        @Query("select ur from UserRole ur where ur.user.id = :userId")
-        List<UserRole> getUserRoles(Integer userId);
+        Role save(Role role);
+//
+//        @Query("select ur from UserRole ur where ur.userId = :userId")
+//        List<UserRole> getUserRoles(Integer userId);
 }

@@ -1,6 +1,7 @@
 package com.application.grandslam.database.services;
 import java.util.List;
 
+import com.application.grandslam.database.entities.Role;
 import com.application.grandslam.database.repositories.UserRepository;
 import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,10 @@ public class UserService  {
     public void save(User user) {
         userRepository.save(user);
         }
+
+    public void save(Role role) {
+        userRepository.save(role);
+    }
 
     public List<User> listAllUsers() {
         return (List<User>)userRepository.findAll();

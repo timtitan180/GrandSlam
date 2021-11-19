@@ -1,5 +1,6 @@
 package com.application.grandslam.database.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -21,8 +22,8 @@ public class Stats{
 	@JoinColumn(name = "team_id",referencedColumnName = "team_id")
 	private Team team;
 
-//	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-//	private Game game;
+//	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//	private List<Game> games = new ArrayList<>();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -243,6 +244,11 @@ public class Stats{
 	public Team getTeam() {
 		return team;
 	}
+
+//	public List<Game> getGames() {
+//		return List<Game> = new ArrayList<>();
+//	}
+
 
 }
 

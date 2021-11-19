@@ -2,7 +2,9 @@ package com.application.grandslam.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -13,6 +15,7 @@ import com.application.grandslam.database.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -26,6 +29,7 @@ import com.application.grandslam.forms.SignUpForm;
 @Controller
 public class SignUpController {
 	public static final Logger LOG = LoggerFactory.getLogger(SignUpController.class);
+
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -41,8 +45,8 @@ public class SignUpController {
 
 	}
 
-	@PostMapping(value = "players")
-	public ModelAndView PostLoginUser(HttpSession session, HttpServletResponse response, @Valid @ModelAttribute("SignUpForm") SignUpForm form, BindingResult bindingResult) {
+	@PostMapping(value = "signup")
+	public ModelAndView PostLoginUser(HttpServletRequest request, @Valid @ModelAttribute("SignUpForm") SignUpForm form, BindingResult bindingResult) {
 		ModelAndView postSignupPage = new ModelAndView("signup");
 		postSignupPage.addObject("form", form);
 		List<String> errors = new ArrayList<String>();
@@ -58,26 +62,22 @@ public class SignUpController {
 		if (errors.size() > 0) {
 			return postSignupPage;
 		}
-			User user = new User();
-			Role role = new Role();
-			postSignupPage.addObject("role",role);
-			user.setFirstName(form.getFirstName());
-			user.setLastName(form.getLastName());
-			user.setEmail(form.getEmail());
-			role.setRole(form.getRole());
-			user.setRole(role);
-			user.setPassword(passwordEncoder.encode(form.getPassword()));
+		User user = new User();
+		Role role = new Role();
+		postSignupPage.addObject("role", role);
+		user.setFirstName(form.getFirstName());
+		user.setLastName(form.getLastName());
+		user.setEmail(form.getEmail());
+		role.setRole(form.getRole());
+		user.setRole(role);
+		user.setPassword(passwordEncoder.encode(form.getPassword()));
 
-			userService.save(user);
-			session.setAttribute("user",user.getRole());
-			LOG.info(user.toString());
-			LOG.info(role.toString());
-			System.out.println(role.getRole().toString());
-			
+		userService.save(user);
+		request.getSession().setAttribute("userRole", user.getRole().getRole());
 
 		return new ModelAndView("showPlayers");
+
 	}
-
-
 }
+
 

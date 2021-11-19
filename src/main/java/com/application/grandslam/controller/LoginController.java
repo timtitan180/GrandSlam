@@ -11,6 +11,7 @@ import java.util.Optional;
 import com.application.grandslam.database.entities.User;
 import com.application.grandslam.database.repositories.UserRepository;
 import com.application.grandslam.database.services.UserService;
+import com.application.grandslam.security.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 //        org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,14 +37,10 @@ import javax.servlet.http.HttpSession;
 
 import static java.util.Optional.ofNullable;
 
-
-//@PreAuthorize("hasAuthority('USER')")
 @Controller
 public class LoginController {
     static Logger LOG = LoggerFactory.getLogger(LoginController.class);
 
-//    @Autowired
-//    UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     UserRepository userRepository;
@@ -53,25 +51,20 @@ public class LoginController {
         return view;
     }
 
-    @PostMapping(value = "/login/user")
-    public ModelAndView checkLoginPage(@ModelAttribute("LoginForm") LoginForm form, @RequestParam("email") String email, String error, HttpServletResponse response, HttpSession session) throws IOException {
+    @PostMapping(value = "/login")
+    public String checkLoginPage(@ModelAttribute("LoginForm") LoginForm form, @RequestParam("email") String email, HttpServletResponse response, HttpSession session) throws IOException {
         ModelAndView view = new ModelAndView("login");
-        Optional<User> currentUser = ofNullable(userRepository.findByEmail(email));
-        System.out.println(currentUser);
-        if(currentUser.isEmpty()) {
-            view.addObject(error, "User could not be found in the system");
+        User user = userRepository.findByEmail(form.getEmail());
+        LOG.info(String.valueOf(user));
+        if(user ==  null)  {
+            LOG.error("User could not be found in the system");
             response.sendRedirect("/login");
-    }
-        else {
-            if(currentUser.isPresent()) {
-                session.setAttribute("loggedInUser", currentUser.get());
-                LOG.info("Users logged In!");
-                LOG.info((String) session.getAttribute("loggedInUser"));
-                view = new ModelAndView("home");
-            }
-
+            view.addObject("error","Username or password is incorrect");
+            return "login";
         }
-        return view;
+        LOG.info("User was found");
+
+        return "redirect:/players";
     }
 
     @GetMapping(value = "/logout")

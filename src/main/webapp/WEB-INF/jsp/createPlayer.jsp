@@ -18,9 +18,34 @@ body {
 	font-family: sans-serif;
 }
 
+
 table {
-	background-color:white;
-	color:black;
+	margin-top:300px;
+	margin-left: 100px;
+	width: 20%;
+}
+
+table {
+	border-collapse: collapse;
+	font-size: 0.9em;
+	font-family: sans-serif;
+	min-width: 200px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+table th {
+	background-color: #009879;
+	color: #ffffff;
+	text-align: left;
+}
+
+table th, td {
+	height: 10px;
+	padding: 12px 15px;
+}
+
+table tr:nth-child(even) {
+	background-color:rgba(250,250,250,0.8);
 }
 
 ul {
@@ -111,12 +136,12 @@ div button {
 
 table {
 	margin-left:300px;
-	width: 30%; }
+	width: 20%; }
 table {
 	border-collapse: collapse;
 	font-size: 0.9em;
 	font-family: sans-serif;
-	min-width: 400px;
+	min-width: 200px;
 	box-shadow: 0px 0px 20px 10px inset rgba(0, 0, 0, 0.15);
 }
 
@@ -126,6 +151,7 @@ table th {
 	text-align: left;
 }
 table th,td  {
+	overflow: paged-y;
 	height:10px;
 	padding: 12px 15px;
 }
@@ -164,12 +190,38 @@ button {
 <body>
 	<header>
 		<ul>
-			<li><a href="players">Players</a></li>
-			<li><a href="/games/createTeams">Teams</a></li>
-			<li><a href="/games/createGames">Games</a></li>
+			<li><a href="/teams">Teams</a></li>
+			<li><a href="/games">Games</a></li>
 			<li><a href="/admin">Admin Settings</a></li>
 		</ul>
 	</header>
+	<table class="playerTable">
+		<th>Name</th><th>AtBats</th><th>Runs</th><th>Hits</th><th>Doubles</th><th>Triples</th><th>Home Runs</th><th>RBIs</th><th>Walks</th><th>Times Struck Out</th><th>Batting Average</th><th>Innings Pitched</th><th>Home Runs Allowed</th><th>Hits Allowed</th><th>Walks Allowed</th><th>Runs Allowed</th><th>Strikeouts</th><th>ERA</th><th>Game Location</th><th>Team</th></tr>
+		<c:forEach items="${players}" var="player">
+		<tr>
+			<td>${player.name}</td>
+			<td>${player.atBats}</td>
+			<td>${player.runs}</td>
+			<td>${player.hits}</td>
+			<td>${player.doubles}</td>
+			<td>${player.triples}</td>
+			<td>${player.homeRuns}</td>
+			<td>${player.runsBattedIn}</td>
+			<td>${player.walks}</td>
+			<td>${player.timesStruckOut}</td>
+			<td>${player.battingAverage}</td>
+			<td>${player.inningsPitched}</td>
+			<td>${player.walksAllowed}</td>
+			<td>${player.homeRunsAllowed}</td>
+			<td>${player.walksAllowed}</td>
+			<td>${player.runsAllowed}</td>
+			<td>${player.strikeouts}</td>
+			<td><%=0%></td>
+			<td><a href="players/edit/${player.statsId}">Edit</a></td>
+			<td><a href="players/delete/${player.statsId}">Delete</a></td>
+		</tr>
+		</c:forEach>
+		</table>
 	<div class="create-player">
 		<div>
 			<img id="addPlayer"
@@ -177,7 +229,7 @@ button {
 			<p>Add Player</p>
 		</div>
 	</div>
-	<form style="visibility: hidden" action="createplayer/addedPlayer" method="POST">
+	<form style="visibility: hidden" action="players/createplayer" method="POST">
 		<h2 id="addplayerHeader" style="visibility: hidden">ADD PLAYER</h2>
 		<h5>For Outfielder</h5>
 		<div>
@@ -220,14 +272,6 @@ button {
 		</div>
 	</form>
 </body>
-<script>
-	var addPlayerImage = document.querySelector("#addPlayer");
-	var form = document.querySelector("form");
-	var addPlayerHeader = document.querySelector("#addplayerHeader");
-	addPlayerImage.addEventListener("click",function (){
-		form.style.visibility = "visible";
-		addPlayerHeader.style.visibility = "visible";
-	});
-</script>
+
 </html>
 
